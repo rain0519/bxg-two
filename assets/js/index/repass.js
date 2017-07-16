@@ -1,0 +1,51 @@
+//引入配置文件和common.js
+require(['/two/assets/js/config.js','/two/assets/js/common.js'],function(){
+    require(['jquery','validate','form'],function($){
+        $('form').validate({
+            submitHandler:function(){
+               var options = {
+                    type:'post',
+                    url:'/api/teacher/repass',
+                    success:function(data){
+                            if(data.code==200){
+                                
+                                alert(data.msg);
+                                //console.log(data);
+                            }
+                        }
+                   };
+                   $('form').ajaxSubmit(options);
+            console.log('fffffs')
+            },
+            rules:{
+                tc_pass:{
+                    required:true,
+                    minlength:6
+                },
+                tc_new_pass:{
+                    required:true,
+                    minlength:6
+                },
+                tc_confirm_pass:{
+                    required:true,
+                    minlength:6,
+                    equalTo:'#newPass'
+                }
+            },
+            messages:{
+                tc_pass:{
+                    required:'不能为空',
+                    minlength:'密码长度最小为6wewe'
+                },
+                tc_new_pass:{
+                    required:'不能为空',
+                    minlength:'密码长度最小为6'
+                },
+                tc_confirm_pass:{
+                    required:'不能为空',
+                    equalTo:'必须和新密码一样'
+                }
+            }
+        })
+    })
+})

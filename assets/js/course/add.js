@@ -1,0 +1,34 @@
+//页面功能分析
+//1-引入配置文件和common.js
+//2-用验证插件对表单内容进行验证
+//3-验证成功后跳转到一个新的页面step1.html
+require(['/two/assets/js/config.js','/two/assets/js/common.js'],function(){
+    require(['jquery','form','validate'],function($){
+        $('form').validate({
+            submitHandler:function(){
+                var options = {
+                    type:'post',
+                    url:'/api/course/create',
+                    success:function(data){
+                        if(data.code==200){
+                            window.location.href = './step1.html?cs_id=' + data.result.cs_id;
+                        }
+                    }
+                };
+                $('form').ajaxSubmit(options);
+            },
+            rules:{
+                cs_name:{
+                    required:true,
+                    rangelength:[2,8]
+                }
+            },
+            messages:{
+                cs_name:{
+                    required:'不能为空',
+                    rangelength:'长度在2-8'
+                }
+            }
+        })
+    })
+})
